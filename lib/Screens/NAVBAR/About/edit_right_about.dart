@@ -1,12 +1,10 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:nemycraft_admin/Auth/database.dart';
 import 'package:nemycraft_admin/Screens/NAVBAR/Home/components/dialogs.dart';
 import 'package:nemycraft_admin/Screens/Reg_Screen/start_up.dart';
-import 'package:nemycraft_admin/Screens/home_screen/edit_contents.dart';
 
 class EditRightAboutPage extends StatefulWidget {
   const EditRightAboutPage({Key? key}) : super(key: key);

@@ -55,7 +55,6 @@ class _EditAboutPageState extends State<EditAboutPage> {
                     ),
                   ),
                 ),
-                //! TODO: ADD LEFT ABOUT IMAGE BY TAKING A SCREENSHOT AND ADDING IT IN COLUMN TO THIS CONTAINER
                 HomePageListTiles(
                   containerColor: Colors.yellow[100],
                   title: 'Click Button to edit the "Left About"',
@@ -66,7 +65,6 @@ class _EditAboutPageState extends State<EditAboutPage> {
                   },
                 ),
                 SizedBox(height: size.height * 0.03),
-                //? TODO: ADD RIGHT ABOUT IMAGE BY TAKING A SCREENSHOT AND ADDING IT IN COLUMN TO THIS CONTAINER
 
                 HomePageListTiles(
                   containerColor: Colors.white,

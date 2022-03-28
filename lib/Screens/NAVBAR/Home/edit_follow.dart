@@ -73,6 +73,7 @@ class _EditFollowPageState extends State<EditFollowPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
+                          // ignore: prefer_const_literals_to_create_immutables
                           children: [
                             Icon(FontAwesomeIcons.facebookF,
                                 color: Colors.blue),
@@ -117,6 +118,7 @@ class _EditFollowPageState extends State<EditFollowPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
+                          // ignore: prefer_const_literals_to_create_immutables
                           children: [
                             Icon(FontAwesomeIcons.instagram,
                                 color: Colors.pink),
@@ -139,15 +141,19 @@ class _EditFollowPageState extends State<EditFollowPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
+                          // ignore: prefer_const_literals_to_create_immutables
                           children: [
                             Icon(FontAwesomeIcons.whatsapp,
                                 color: Colors.green),
                             SizedBox(width: 5),
-                            Text('WHATSAPP'),
+                            Text('WHATSAPP (number must start with "+")'),
                           ],
                         ),
                         TextFormField(
                           controller: _whatsappController,
+                          keyboardType: TextInputType.phone,
+                          decoration:
+                              InputDecoration(hintText: '+2347051678158'),
                           validator: (text) {
                             return text!.isEmpty
                                 ? 'The Field can not be empty'
@@ -202,10 +208,11 @@ class _EditFollowPageState extends State<EditFollowPage> {
         );
       } else if (!form.validate()) {
         dialogs.successDialog(
-            context: context,
-            titleText: 'ERROR',
-            contentText:
-                'FILL UP THE OPTIONS!, P.S: You can actually fill the ones you have and fill any random text for the ones you don\'t have, and also feel free to contact Marcel for Social Media pages you want to add');
+          context: context,
+          titleText: 'ERROR',
+          contentText:
+              'FILL UP THE OPTIONS!, P.S: You can actually fill the ones you have and fill any random text for the ones you don\'t have, and also feel free to contact Marcel for Social Media pages you want to add',
+        );
       }
 
       setState(() {

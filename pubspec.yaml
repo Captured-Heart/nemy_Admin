@@ -46,6 +46,11 @@ dependencies:
   intl: ^0.17.0
   modal_progress_hud_nsn: ^0.1.0-nullsafety-1
   flutter_animated_dialog: ^2.0.1
+  image_picker: ^0.8.4+10
+  path_provider: ^2.0.9
+  # multi_image_picker2: ^5.0.2
+  focused_menu: ^1.0.5
+
 
 dev_dependencies:
   flutter_test:

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nemycraft_admin/Screens/NAVBAR/About/edit_about.dart';
 import 'package:nemycraft_admin/Screens/NAVBAR/Home/edit_home.dart';
-import 'package:nemycraft_admin/Screens/NAVBAR/Events/eventScreen.dart';
+import 'package:nemycraft_admin/Screens/NAVBAR/Events/event_screen.dart';
 import 'package:nemycraft_admin/Screens/notifications_screen.dart';
 // import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
