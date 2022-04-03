@@ -42,6 +42,7 @@ class MyApp extends StatelessWidget {
           // HomeScreen(),
           StartUp(),
       routes: {
+        '/startUp':(context) => StartUp(),
         '/login': (context) => LoginPage(),
         '/signUp': (context) => SignUpPage(),
         '/homeScreen': (context) => HomeScreen(),

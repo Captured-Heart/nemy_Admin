@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
-
 import 'package:flutter/material.dart';
 import 'package:nemycraft_admin/Auth/auth_methods.dart';
+import 'package:nemycraft_admin/Screens/NAVBAR/Home/components/dialogs.dart';
 import 'package:nemycraft_admin/Screens/Reg_Screen/login.dart';
 import 'package:nemycraft_admin/Screens/Reg_Screen/start_up.dart';
 import 'package:nemycraft_admin/constants.dart';
@@ -20,6 +20,8 @@ class _SignUpPageState extends State<SignUpPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passController = TextEditingController();
   final AuthMethods _authMethods = AuthMethods();
+  bool _isLoading = true;
+  final Dialogs dialogs = Dialogs();
 
   static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -93,7 +95,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       SizedBox(height: 20),
                       LoginButton(
                         size: size,
-                        text: 'Sign Up',
+                        text: _isLoading ? 'Sign Up' : 'Loading.....',
                         onPressed: signUp,
                         bgColor: Colors.black,
                         fgColor: Colors.white,
@@ -138,18 +140,30 @@ class _SignUpPageState extends State<SignUpPage> {
     try {
       if (form!.validate()) {
         form.save();
-
+        setState(() {
+          _isLoading = false;
+        });
         await _authMethods.signUpWithEmailAndPassword(
           emailController.text,
           passController.text,
         );
-      //    if (user.isEmailVerified) {
-      //           Navigator.pushReplacementNamed(context, '/homeScreen');
+        dialogs.warningDialog(
+          context: context,
+          contentText: 'Please go to your mail and verify to use the app',
+          titleText: 'SUCCESS',
+          onPositiveClick: (){
+            Navigator.popUntil(context, ModalRoute.withName('/'));
+          }
+        );
+        //    if (user.isEmailVerified) {
+        //           Navigator.pushReplacementNamed(context, '/homeScreen');
 
-       
-      // } else {
-      //   _showSnackBar('Please Verify your Email before you can Login');
-      // }
+        // } else {
+        //   _showSnackBar('Please Verify your Email before you can Login');
+        // }
+        setState(() {
+          _isLoading = true;
+        });
       } else {
         // print('errorknk');
       }

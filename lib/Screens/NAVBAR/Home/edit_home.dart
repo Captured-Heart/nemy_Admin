@@ -19,6 +19,7 @@ class _EditHomePageState extends State<EditHomePage> {
       backgroundColor: Colors.teal[50],
       appBar: AppBar(
         title: Text('Edit Home'),
+        automaticallyImplyLeading: false,
       ),
       body: SafeArea(
         child: SingleChildScrollView(

@@ -113,7 +113,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   }
 
   Stream<QuerySnapshot> getNotifications(BuildContext context) async* {
-    yield* FirebaseFirestore.instance.collection('Contact Lists').snapshots();
+    yield* FirebaseFirestore.instance.collection('Contact_Lists').snapshots();
   }
 }
 

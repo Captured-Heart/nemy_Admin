@@ -151,12 +151,7 @@ class _EventsFolderState extends State<EventsFolder> {
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: [
-                  InkWell(
-                    onTap: (){
-                      print(_image!.length);
-                    },
-                    child: Text('hsh'),
-                  ),
+                 
                   SizedBox(
                     width: 50,
                   ),

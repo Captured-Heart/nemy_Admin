@@ -8,6 +8,7 @@ class Dialogs {
     BuildContext? context,
     String? contentText,
     String? titleText,
+    
   }) {
     return dialog.showAnimatedDialog(
       context: context!,

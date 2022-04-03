@@ -16,7 +16,6 @@ class _ImageScreenState extends State<ImageScreen> {
   @override
   void initState() {
     getImages();
-
     super.initState();
   }
 
@@ -38,7 +37,7 @@ class _ImageScreenState extends State<ImageScreen> {
               var nothingDae = !snapshot.hasData;
               return nothingDae
                   ? Center(
-                    child: CircularProgressIndicator(),
+                      child: CircularProgressIndicator(),
                       // child: Text('There are no pictures available/ Kindly check your Internet connection'),
                     )
                   : GridView(
@@ -53,13 +52,17 @@ class _ImageScreenState extends State<ImageScreen> {
                                 onTap: () {
                                   // print(documents['url']);
 
-                                  Navigator.push(context,
-                                      MaterialPageRoute(builder: (context) {
-                                    return EnlargeScreen(
-                                      url: documents['url'],
-                                      appBarTitle: '',
-                                    );
-                                  }));
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return EnlargeScreen(
+                                          url: documents['url'],
+                                          appBarTitle: '',
+                                        );
+                                      },
+                                    ),
+                                  );
                                 },
                                 child: Image.network(
                                   documents['url'],

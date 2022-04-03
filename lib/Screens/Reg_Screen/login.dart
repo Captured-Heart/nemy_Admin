@@ -20,6 +20,7 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController passController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   static final GlobalKey<FormState> _formKeyLogin = GlobalKey<FormState>();
+  bool _isLoading = true;
 
   @override
   Widget build(BuildContext context) {
@@ -89,13 +90,17 @@ class _LoginPageState extends State<LoginPage> {
                             )),
                       ),
                       SizedBox(height: 20),
-                      LoginButton(
-                        size: size,
-                        text: 'Log In',
-                        onPressed: signin,
-                        bgColor: Colors.black,
-                        fgColor: Colors.white,
-                      )
+                      _isLoading
+                          ? LoginButton(
+                              size: size,
+                              text: 'Log In',
+                              onPressed: signin,
+                              bgColor: Colors.black,
+                              fgColor: Colors.white,
+                            )
+                          : Center(
+                              child: CircularProgressIndicator(),
+                            )
                     ],
                   ),
                 ),
@@ -110,6 +115,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void _showSnackBar(String error) {
     final _snackBar = SnackBar(
+      duration: Duration(seconds: 2),
       backgroundColor: Color.fromARGB(255, 40, 41, 54),
       content: Row(
         mainAxisSize: MainAxisSize.min,
@@ -137,21 +143,32 @@ class _LoginPageState extends State<LoginPage> {
     try {
       if (form!.validate()) {
         form.save();
+        setState(() {
+          _isLoading = false;
+        });
         final _user = await _auth.signInWithEmailAndPassword(
           email: emailController.text,
           password: passController.text,
         );
-
+        setState(() {
+          _isLoading = true;
+        });
         if (_user.user!.emailVerified) {
           Navigator.pushReplacementNamed(context, '/homeScreen');
         } else {
           _showSnackBar('Please Verify your Email before you can Login');
+          setState(() {
+            _isLoading = false;
+          });
         }
       } else {
         print('errorknk');
       }
     } catch (error) {
       _showSnackBar(error.toString());
+      setState(() {
+        _isLoading = true;
+      });
     }
   }
 }
