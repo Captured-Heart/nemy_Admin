@@ -17,7 +17,10 @@ class _EditAboutPageState extends State<EditAboutPage> {
 
     return Scaffold(
       backgroundColor: Colors.teal[50],
-      appBar: AppBar(title: Text('Edit About'),),
+      appBar: AppBar(
+        title: Text('Edit About'),
+        automaticallyImplyLeading: false,
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
@@ -65,7 +68,6 @@ class _EditAboutPageState extends State<EditAboutPage> {
                   },
                 ),
                 SizedBox(height: size.height * 0.03),
-
                 HomePageListTiles(
                   containerColor: Colors.white,
                   title: 'Click Button to edit the "Right About"',

@@ -18,7 +18,10 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-      appBar: AppBar(title: Text('Notifications')),
+      appBar: AppBar(
+        title: Text('Notifications'),
+        automaticallyImplyLeading: false,
+      ),
       backgroundColor: Colors.teal[50],
       body: SafeArea(
         child: SingleChildScrollView(

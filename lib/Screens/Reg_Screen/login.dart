@@ -38,14 +38,18 @@ class _LoginPageState extends State<LoginPage> {
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Padding(
                   padding: EdgeInsets.all(15.0),
-                  child: Text(
-                    'LOG IN',
-                    style: constants.kTextStyleBold
-                        .copyWith(fontSize: size.width * 0.08),
+                  child: Row(
+                    children: [
+                      Text(
+                        'LOG IN',
+                        style: constants.kTextStyleBold
+                            .copyWith(fontSize: size.width * 0.08),
+                      ),
+                    ],
                   ),
                 ),
                 Spacer(),
@@ -102,6 +106,30 @@ class _LoginPageState extends State<LoginPage> {
                               child: CircularProgressIndicator(),
                             )
                     ],
+                  ),
+                ),
+                SizedBox(
+                  height: size.height * 0.1,
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(context, '/signUp');
+                    },
+                    child: RichText(
+                      text: TextSpan(
+                          text: 'Do not have an account?',
+                          style: TextStyle(
+                            fontStyle: FontStyle.italic,
+                            fontSize: 19,
+                          ),
+                          children: [
+                            TextSpan(
+                                text: ' Sign Up',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 22,
+                                    color: Colors.green[400]))
+                          ]),
+                    ),
                   ),
                 ),
                 Spacer(),

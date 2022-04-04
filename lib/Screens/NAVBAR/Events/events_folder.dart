@@ -74,7 +74,16 @@ class _EventsFolderState extends State<EventsFolder> {
         .child('${widget.appBarTitle}/ coverImage  ${widget.appBarTitle}}');
     // await ref.putFile(_image!).whenComplete(() async {});
     UploadTask uploadTask = ref.putFile(widget.image!);
-    TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() {});
+    TaskSnapshot taskSnapshot =
+        await uploadTask.whenComplete(() {}).catchError((error) {
+      dialog.warningDialog(
+          context: context,
+          onPositiveClick: () {
+            Navigator.pop(context);
+          },
+          titleText: 'ERROR',
+          contentText: error.toString());
+    });
 
     final String downloadUrl = await taskSnapshot.ref.getDownloadURL();
 
@@ -101,8 +110,12 @@ class _EventsFolderState extends State<EventsFolder> {
               'folderName': widget.appBarTitle,
               'coverUrl': downloadUrl,
               'imgLength': _image!.length
-            });
-            // i++;
+            }).whenComplete(() => dialog.pushToDialog(
+                  context: context,
+                  titleText: 'Success',
+                  contentText:
+                      'Your files have succesfully been posted to the website',
+                ));
           });
         },
       );
@@ -138,7 +151,10 @@ class _EventsFolderState extends State<EventsFolder> {
                     contentText:
                         'You are about to leaving this page to the home Page and no changes will be saved',
                     onPositiveClick: () {
-                      Navigator.pushReplacementNamed(context, '/editHome');
+                      Navigator.popUntil(
+                          context, ModalRoute.withName('/homeScreen'));
+
+                      // Navigator.pushReplacementNamed(context, '/editHome');
                     });
               });
             },
@@ -151,7 +167,6 @@ class _EventsFolderState extends State<EventsFolder> {
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: [
-                 
                   SizedBox(
                     width: 50,
                   ),
@@ -162,13 +177,13 @@ class _EventsFolderState extends State<EventsFolder> {
                     onPressed: () {
                       uploadFile(widget.appBarTitle);
 
-                      dialog.pushToDialog(
-                        context: context,
-                        titleText: 'Success',
-                        contentText:
-                            'Your files have succesfully been posted to the website',
-                        pageName: '/editEvents',
-                      );
+                      // dialog.pushToDialog(
+                      //   context: context,
+                      //   titleText: 'Success',
+                      //   contentText:
+                      //       'Your files have succesfully been posted to the website',
+                      //   // pageName: '/editEvents',
+                      // );
 
                       // Navigator.pop(context);
                     },

@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:nemycraft_admin/Auth/auth_methods.dart';
+import 'package:nemycraft_admin/Screens/NAVBAR/Home/components/dialogs.dart';
 import 'package:nemycraft_admin/Screens/home_screen/edit_contents.dart';
 
 class EditHomePage extends StatefulWidget {
@@ -11,6 +13,21 @@ class EditHomePage extends StatefulWidget {
 }
 
 class _EditHomePageState extends State<EditHomePage> {
+  Dialogs dialogs = Dialogs();
+  final AuthMethods _authMethod = AuthMethods();
+  Future<bool> _logOut() async {
+    dialogs.warningDialog(
+        context: context,
+        titleText: 'Warning',
+        contentText: 'Are you Sure you want to Log out?',
+        onPositiveClick: () async {
+          await _authMethod.signOut();
+          Navigator.popUntil(context, ModalRoute.withName('/'));
+        });
+
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -20,6 +37,36 @@ class _EditHomePageState extends State<EditHomePage> {
       appBar: AppBar(
         title: Text('Edit Home'),
         automaticallyImplyLeading: false,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                TextButton.icon(
+                  style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.green[300]!)),
+                  onPressed: () {
+                    _logOut();
+                  },
+                  icon: Icon(
+                    Icons.power_settings_new_outlined,
+                    color: Color.fromARGB(255, 255, 81, 0),
+                    size: 27,
+                  ),
+                  label: Text(
+                    'Log Out',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          )
+        ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(

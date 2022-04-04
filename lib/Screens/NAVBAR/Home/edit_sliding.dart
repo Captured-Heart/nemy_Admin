@@ -47,35 +47,57 @@ class _EditSlidingPageState extends State<EditSlidingPage> {
       setState(() {
         _image!.add(response.file!);
       });
-    } else {
-      // print(response.file);
-    }
+    } else {}
   }
 
   Future uploadFile() async {
-    int i = 1;
-
-    for (var img in _image!) {
-      setState(() {
-        val = i / _image!.length;
-      });
-      Reference ref = FirebaseStorage.instance
-          .ref()
-          .child('Sliding/${path.basename(img.path)}');
-      var imageloop = File(img.path);
-      await ref.putFile(imageloop).whenComplete(() async {
-        await ref.getDownloadURL().then((value) {
-          imgRef.add({
-            'url': value,
-            'dateCreated': DateTime.now().toString(),
-            // 'Description': widget.descController,
-            // 'type': widget.typeController
-          });
-          i++;
+    // int i = 1;
+    try {
+      for (var img in _image!) {
+        setState(() {
+          // val = i / _image!.length;
+          _isLoading = false;
         });
-      });
-    }
+        Reference ref = FirebaseStorage.instance
+            .ref()
+            .child('Sliding/${path.basename(img.path)}');
+        var imageloop = File(img.path);
+        await ref.putFile(imageloop).whenComplete(() async {
+          await ref.getDownloadURL().then((value) {
+            setState(() {
+              // val = i / _image!.length;
+              _isLoading = true;
+            });
+            imgRef.add({
+              'url': value,
+              'dateCreated': DateTime.now().toString(),
+              // 'Description': widget.descController,
+              // 'type': widget.typeController
+            }).whenComplete(() => dialog.popUntil2Dialog(
+                  context: context,
+                  titleText: 'Success',
+                  onNegativeClick: () {
+                    // _image!.remove(true);
+                    setState(() {
+                      _image!.clear();
+                      Navigator.of(context).popAndPushNamed('/slidingImage');
+                    });
+                  },
+                  contentText:
+                      'Your files have succesfully been posted to the website',
+                ));
+            setState(() {
+              // val = i / _image!.length;
+              _isLoading = true;
+            });
+            // i++;
+          });
+        });
+      }
+    } catch (e) {}
   }
+
+  bool _isLoading = true;
 
   @override
   void initState() {
@@ -96,47 +118,54 @@ class _EditSlidingPageState extends State<EditSlidingPage> {
             padding: const EdgeInsets.all(8.0),
             child: Row(
               children: [
-                TextButton.icon(
-                  style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.green)),
-                  onPressed: () {
-                    uploadFile();
-                    _image!.isEmpty
-                        ? dialog.warningDialog(
-                            context: context,
-                            titleText: 'ERROR',
-                            contentText:
-                                'You have not selected any image and therefore can not upload empty files, use the "+" button to pick an image',
-                            onPositiveClick: () {
-                              Navigator.pop(context);
-                            },
-                          )
-                        : dialog.popUntil2Dialog(
-                            context: context,
-                            titleText: 'Success',
-                            onNegativeClick: () {
-                              // _image!.remove(true);
-                              setState(() {
-                                _image!.clear();
-                                Navigator.of(context).popAndPushNamed('/slidingImage');
-                              });
-                            },
-                            contentText:
-                                'Your files have succesfully been posted to the website',
-                          );
-                    // Navigator.pop(context);
-                  },
-                  icon: Icon(
-                    Icons.upload,
-                    color: Colors.amber,
-                    size: 25,
-                  ),
-                  label: Text(
-                    'Upload',
-                    style: TextStyle(color: Colors.white, fontSize: 18),
-                  ),
-                )
+                _isLoading
+                    ? TextButton.icon(
+                        style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all<Color>(Colors.green)),
+                        onPressed: () {
+                          uploadFile();
+                          _image!.isEmpty
+                              ? dialog.warningDialog(
+                                  context: context,
+                                  titleText: 'ERROR',
+                                  contentText:
+                                      'You have not selected any image and therefore can not upload empty files, use the "+" button to pick an image',
+                                  onPositiveClick: () {
+                                    Navigator.pop(context);
+                                  },
+                                )
+                              : _image!.clear();
+
+                          // dialog.popUntil2Dialog(
+                          //     context: context,
+                          //     titleText: 'Success',
+                          //     onNegativeClick: () {
+                          //       // _image!.remove(true);
+                          //       setState(() {
+                          //         _image!.clear();
+                          //         Navigator.of(context)
+                          //             .popAndPushNamed('/slidingImage');
+                          //       });
+                          //     },
+                          //     contentText:
+                          //         'Your files have succesfully been posted to the website',
+                          //   );
+                          // Navigator.pop(context);
+                        },
+                        icon: Icon(
+                          Icons.upload,
+                          color: Colors.amber,
+                          size: 25,
+                        ),
+                        label: Text(
+                          'Upload',
+                          style: TextStyle(color: Colors.white, fontSize: 18),
+                        ),
+                      )
+                    : CircularProgressIndicator(
+                        color: Colors.green,
+                      )
               ],
             ),
           )
@@ -257,7 +286,7 @@ class _EditSlidingPageState extends State<EditSlidingPage> {
                       child: Column(
                         children: [
                           InkWell(
-                            onTap: (){
+                            onTap: () {
                               Navigator.pushNamed(context, '/slidingImage');
                             },
                             child: Icon(

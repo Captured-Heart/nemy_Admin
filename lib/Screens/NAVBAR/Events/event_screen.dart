@@ -18,7 +18,12 @@ class _EventScreenState extends State<EventScreen> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-      appBar: AppBar(title: Text('Events Screen')),
+      appBar: AppBar(
+        title: Text(
+          'Events Screen',
+        ),
+        automaticallyImplyLeading: false,
+      ),
       backgroundColor: Colors.teal[50],
       body: SafeArea(
         child: Container(
@@ -71,7 +76,7 @@ class _EventScreenState extends State<EventScreen> {
                     return nothingDae
                         ? Center(
                             heightFactor: size.height * 0.01,
-                            child: 
+                            child:
                                 // RefreshProgressIndicator()
                                 Text(
                               'There is no collection yet / Kindly check your Network',

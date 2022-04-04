@@ -8,7 +8,6 @@ class Dialogs {
     BuildContext? context,
     String? contentText,
     String? titleText,
-    
   }) {
     return dialog.showAnimatedDialog(
       context: context!,
@@ -29,7 +28,7 @@ class Dialogs {
   }
 
   Future<Object?> warningDialog(
-      { required BuildContext context,
+      {required BuildContext context,
       String? contentText,
       String? titleText,
       required VoidCallback onPositiveClick}) {
@@ -75,11 +74,11 @@ class Dialogs {
     );
   }
 
-  Future<Object?> pushToDialog(
-      {BuildContext? context,
-      String? contentText,
-      String? titleText,
-      String? pageName}) {
+  Future<Object?> pushToDialog({
+    BuildContext? context,
+    String? contentText,
+    String? titleText,
+  }) {
     return dialog.showAnimatedDialog(
       context: context!,
       barrierDismissible: true,
@@ -88,7 +87,9 @@ class Dialogs {
           titleText: titleText,
           contentText: contentText,
           onNegativeClick: () {
-            Navigator.of(context2).popAndPushNamed(pageName!);
+            Navigator.popUntil(context, ModalRoute.withName('/homeScreen'));
+
+            // Navigator.of(context2).popAndPushNamed(pageName!);
           },
         );
       }),

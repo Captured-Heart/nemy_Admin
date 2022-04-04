@@ -100,6 +100,30 @@ class _SignUpPageState extends State<SignUpPage> {
                         bgColor: Colors.black,
                         fgColor: Colors.white,
                       ),
+                      SizedBox(
+                        height: size.height * 0.1,
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.pushReplacementNamed(context, '/login');
+                          },
+                          child: RichText(
+                            text: TextSpan(
+                                text: 'Already have an account?',
+                                style: TextStyle(
+                                  fontStyle: FontStyle.italic,
+                                  fontSize: 19,
+                                ),
+                                children: [
+                                  TextSpan(
+                                      text: ' LOGIN',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 22,
+                                          color: Colors.purple[400]))
+                                ]),
+                          ),
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -143,24 +167,25 @@ class _SignUpPageState extends State<SignUpPage> {
         setState(() {
           _isLoading = false;
         });
-        await _authMethods.signUpWithEmailAndPassword(
+        await _authMethods
+            .signUpWithEmailAndPassword(
           emailController.text,
           passController.text,
-        );
-        dialogs.warningDialog(
-          context: context,
-          contentText: 'Please go to your mail and verify to use the app',
-          titleText: 'SUCCESS',
-          onPositiveClick: (){
-            Navigator.popUntil(context, ModalRoute.withName('/'));
-          }
-        );
-        //    if (user.isEmailVerified) {
-        //           Navigator.pushReplacementNamed(context, '/homeScreen');
+          context,
+        )
+            .catchError((e) {
+          _showSnackBar(e.toString());
+        });
+        emailController.clear();
+        passController.clear();
+        // dialogs.warningDialog(
+        //     context: context,
+        //     contentText: 'Please go to your mail and verify to use the app',
+        //     titleText: 'SUCCESS',
+        //     onPositiveClick: () {
+        //       Navigator.popUntil(context, ModalRoute.withName('/'));
+        //     });
 
-        // } else {
-        //   _showSnackBar('Please Verify your Email before you can Login');
-        // }
         setState(() {
           _isLoading = true;
         });
@@ -169,6 +194,9 @@ class _SignUpPageState extends State<SignUpPage> {
       }
     } catch (error) {
       _showSnackBar(error.toString());
+      setState(() {
+        _isLoading = true;
+      });
     }
   }
 }
