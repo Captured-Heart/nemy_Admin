@@ -92,7 +92,7 @@ class _EditHomePageState extends State<EditHomePage> {
                   HomePageListTiles(
                     containerColor: Colors.yellow[100],
                     title: 'Click Button to edit the sliding images',
-                    buttonText: 'Sliding Images',
+                    buttonText: 'Sliding Pics',
                     size: size,
                     onPressed: () {
                       Navigator.pushNamed(context, '/editSliding');

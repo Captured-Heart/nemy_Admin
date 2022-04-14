@@ -113,63 +113,6 @@ class _EditSlidingPageState extends State<EditSlidingPage> {
       backgroundColor: Colors.teal[50],
       appBar: AppBar(
         title: Text('Edit_Sliding Images'),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                _isLoading
-                    ? TextButton.icon(
-                        style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all<Color>(Colors.green)),
-                        onPressed: () {
-                          uploadFile();
-                          _image!.isEmpty
-                              ? dialog.warningDialog(
-                                  context: context,
-                                  titleText: 'ERROR',
-                                  contentText:
-                                      'You have not selected any image and therefore can not upload empty files, use the "+" button to pick an image',
-                                  onPositiveClick: () {
-                                    Navigator.pop(context);
-                                  },
-                                )
-                              : _image!.clear();
-
-                          // dialog.popUntil2Dialog(
-                          //     context: context,
-                          //     titleText: 'Success',
-                          //     onNegativeClick: () {
-                          //       // _image!.remove(true);
-                          //       setState(() {
-                          //         _image!.clear();
-                          //         Navigator.of(context)
-                          //             .popAndPushNamed('/slidingImage');
-                          //       });
-                          //     },
-                          //     contentText:
-                          //         'Your files have succesfully been posted to the website',
-                          //   );
-                          // Navigator.pop(context);
-                        },
-                        icon: Icon(
-                          Icons.upload,
-                          color: Colors.amber,
-                          size: 25,
-                        ),
-                        label: Text(
-                          'Upload',
-                          style: TextStyle(color: Colors.white, fontSize: 18),
-                        ),
-                      )
-                    : CircularProgressIndicator(
-                        color: Colors.green,
-                      )
-              ],
-            ),
-          )
-        ],
       ),
       body: SingleChildScrollView(
         child: SafeArea(
@@ -177,157 +120,198 @@ class _EditSlidingPageState extends State<EditSlidingPage> {
             children: [
               Container(
                 width: size.width,
-                height: size.height * 0.5,
-                margin: EdgeInsets.symmetric(horizontal: 10),
+                margin: EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 5,
+                ),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.red),
+                ),
+                padding: EdgeInsets.all(10),
+                // margin: EdgeInsets.only(top: 5),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(
-                      decoration:
-                          BoxDecoration(border: Border.all(color: Colors.red)),
-                      padding: EdgeInsets.all(10),
-                      margin: EdgeInsets.only(top: 5),
-                      child: Text(
-                        'Below is the screenshot of the section from the website',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
+                    Text(
+                      'Click on the Button below to view the sliding image on the websites ',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
                       ),
                     ),
-                    Container(
-                      height: size.height * 0.3,
-                      width: size.width,
-                      margin: EdgeInsets.symmetric(
-                        vertical: size.height * 0.04,
+                    TextButton.icon(
+                      style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all<Color>(Colors.green)),
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/slidingImage');
+                      },
+                      icon: Icon(
+                        Icons.subdirectory_arrow_right_outlined,
+                        color: Colors.amber,
+                        size: 25,
                       ),
-                      child: Image.asset(
-                        'assets/images/nemySliding.png',
-                        fit: BoxFit.cover,
+                      label: Text(
+                        'View Sliding Images',
+                        style: TextStyle(color: Colors.white, fontSize: 18),
                       ),
-                    ),
-                    // Icon(Icons.folder),
-                    //! ADD A FILE PICKER TO PICK IMAGES
+                    )
                   ],
                 ),
               ),
-              Stack(
-                // fit: StackFit.expand,
-                children: [
-                  Container(
-                    height: size.height * 0.6,
-                    padding: EdgeInsets.all(4),
-                    child: GridView.builder(
-                        itemCount: _image!.length + 1,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3),
-                        itemBuilder: (context, index) {
-                          return index == 0
-                              ? Center(
-                                  child: Container(
-                                    margin: EdgeInsets.only(
-                                      left: 5,
-                                      right: 5,
-                                    ),
-                                    width: size.width,
-                                    height: size.height,
-                                    decoration: BoxDecoration(
-                                      border: Border.all(width: 0.5),
-                                    ),
-                                    child: IconButton(
-                                      color: Colors.green,
-                                      icon: Icon(
-                                        Icons.add,
-                                        size: 50,
-                                      ),
-                                      onPressed: () {
-                                        setState(() {
-                                          uploading = false;
-                                        });
-                                        chooseImage();
-                                      },
-                                    ),
+              SizedBox(
+                height: 15,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.blue),
+                  color: Colors.pink[50],
+                ),
+                margin: EdgeInsets.symmetric(horizontal: 5),
+                padding: EdgeInsets.all(4),
+                child: Column(
+                  children: [
+                    _isLoading
+                        ? Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: TextButton.icon(
+                              style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                    Colors.green,
                                   ),
-                                )
-                              : Padding(
-                                  padding: EdgeInsets.all(2.0),
-                                  child: Stack(
-                                    fit: StackFit.expand,
-                                    children: [
-                                      Image.file(
-                                        File(_image![index - 1].path),
-                                        fit: BoxFit.cover,
-                                      ),
-                                      Positioned(
-                                        right: 1,
-                                        // top: 2,
-                                        child: IconButton(
-                                          visualDensity: VisualDensity.compact,
-                                          padding: EdgeInsets.zero,
-                                          onPressed: () {
-                                            setState(() {
-                                              _image!.removeAt(index - 1);
-                                            });
-                                          },
-                                          icon: Icon(
-                                              FontAwesomeIcons.timesCircle),
-                                          color: Colors.red,
-                                          // size: 30,
+                                  padding: MaterialStateProperty.all<
+                                      EdgeInsetsGeometry>(EdgeInsets.all(15))),
+                              onPressed: () {
+                                uploadFile();
+                                _image!.isEmpty
+                                    ? dialog.warningDialog(
+                                        context: context,
+                                        titleText: 'ERROR',
+                                        contentText:
+                                            'You have not selected any image and therefore can not upload empty files, use the "+" button to pick an image',
+                                        onPositiveClick: () {
+                                          Navigator.pop(context);
+                                        },
+                                      )
+                                    : _image!.clear();
+                              },
+                              icon: Icon(
+                                Icons.upload,
+                                color: Colors.amber,
+                                size: 30,
+                              ),
+                              label: Text(
+                                'Upload',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 22),
+                              ),
+                            ),
+                          )
+                        : CircularProgressIndicator(
+                            color: Colors.green,
+                          ),
+                    Stack(
+                      // fit: StackFit.expand,
+                      children: [
+                        SizedBox(
+                          height: size.height,
+                          child: GridView.builder(
+                              itemCount: _image!.length + 1,
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 3),
+                              itemBuilder: (context, index) {
+                                return index == 0
+                                    ? Center(
+                                        child: Container(
+                                          margin: EdgeInsets.only(
+                                            left: 5,
+                                            right: 5,
+                                          ),
+                                          width: size.width,
+                                          height: size.height,
+                                          decoration: BoxDecoration(
+                                            border: Border.all(width: 0.5),
+                                            color: Colors.white,
+                                          ),
+                                          child: IconButton(
+                                            color: Colors.green,
+                                            icon: Icon(
+                                              Icons.add,
+                                              size: 50,
+                                            ),
+                                            onPressed: () {
+                                              setState(() {
+                                                uploading = false;
+                                              });
+                                              chooseImage();
+                                            },
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                        }),
-                  ),
-                  Visibility(
-                    visible: uploading,
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Column(
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              Navigator.pushNamed(context, '/slidingImage');
-                            },
-                            child: Icon(
-                              Icons.folder,
-                              size: size.width * 0.3,
-                              color: Colors.blue,
-                            ),
-                          ),
-                          Text(
-                            'Sliding Images Folder',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
+                                      )
+                                    : Padding(
+                                        padding: EdgeInsets.all(2.0),
+                                        child: Stack(
+                                          fit: StackFit.expand,
+                                          children: [
+                                            Image.file(
+                                              File(_image![index - 1].path),
+                                              fit: BoxFit.cover,
+                                            ),
+                                            Positioned(
+                                              right: 1,
+                                              // top: 2,
+                                              child: IconButton(
+                                                visualDensity:
+                                                    VisualDensity.compact,
+                                                padding: EdgeInsets.zero,
+                                                onPressed: () {
+                                                  setState(() {
+                                                    _image!.removeAt(index - 1);
+                                                  });
+                                                },
+                                                icon: Icon(FontAwesomeIcons
+                                                    .timesCircle),
+                                                color: Colors.red,
+                                                // size: 30,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                              }),
+                        ),
+                        // Visibility(
+                        //   visible: uploading,
+                        //   child: Align(
+                        //     alignment: Alignment.center,
+                        //     child: Column(
+                        //       children: [
+                        //         InkWell(
+                        //           onTap: () {
+                        //             Navigator.pushNamed(context, '/slidingImage');
+                        //           },
+                        //           child: Icon(
+                        //             Icons.folder,
+                        //             size: size.width * 0.3,
+                        //             color: Colors.blue,
+                        //           ),
+                        //         ),
+                        //         Text(
+                        //           'Sliding Images Folder',
+                        //           style: TextStyle(
+                        //             fontWeight: FontWeight.bold,
+                        //           ),
+                        //         ),
+                        //       ],
+                        //     ),
+                        //   ),
+                        // ),
+                      ],
                     ),
-                  ),
-                  // uploading
-                  //     ? Center(
-                  //         child: Column(
-                  //         mainAxisSize: MainAxisSize.min,
-                  //         children: [
-                  //           SizedBox(
-                  //             child: Text(
-                  //               'uploading...',
-                  //               style: TextStyle(fontSize: 20),
-                  //             ),
-                  //           ),
-                  //           SizedBox(
-                  //             height: 10,
-                  //           ),
-                  //           CircularProgressIndicator(
-                  //             value: val,
-                  //             valueColor:
-                  //                 AlwaysStoppedAnimation<Color>(Colors.green),
-                  //           )
-                  //         ],
-                  //       ))
-                  //     : Container(),
-                ],
+                  ],
+                ),
               )
             ],
           ),

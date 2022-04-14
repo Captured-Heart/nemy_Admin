@@ -249,10 +249,11 @@ class Dialogs {
         });
   }
 
-  Future<void> deleteFolder(BuildContext context, VoidCallback onSave) {
+  Future<void> deleteFolder(BuildContext context, VoidCallback onSave, String text) {
     var alert = AlertDialog(
       title: Text(
-        'Do You want to Delete This Picture',
+        text,
+        // 'Do You want to Delete This Picture',
         style: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 22,

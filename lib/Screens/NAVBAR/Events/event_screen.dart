@@ -2,8 +2,11 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:focused_menu/focused_menu.dart';
+import 'package:focused_menu/modals.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nemycraft_admin/Screens/NAVBAR/Events/image_screen.dart';
+import 'package:nemycraft_admin/Screens/NAVBAR/Home/components/dialogs.dart';
 
 class EventScreen extends StatefulWidget {
   const EventScreen({Key? key}) : super(key: key);
@@ -94,7 +97,7 @@ class _EventScreenState extends State<EventScreen> {
                                       crossAxisCount: 3),
                               children: snapshot.data!.docs
                                   .map((documents) =>
-                                      eventsFolder(size, documents))
+                                      eventsFolder(context, size, documents))
                                   .toList(),
                             ),
                           );
@@ -107,26 +110,68 @@ class _EventScreenState extends State<EventScreen> {
     );
   }
 
-  Widget eventsFolder(Size size, QueryDocumentSnapshot<Object?> documents) {
-    return InkWell(
-      onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return ImageScreen(
-            appBarTitle: documents['folderName'],
-          );
-        }));
-      },
-      child: Column(
-        children: [
-          Icon(
-            FontAwesomeIcons.solidFolder,
-            size: size.height * 0.1,
-            color: Colors.blue[300],
+  FocusedMenuHolder eventsFolder(BuildContext context, Size size,
+      QueryDocumentSnapshot<Object?> documents) {
+    Dialogs dialogs = Dialogs();
+    // documents.id;
+    Future deleteFolder(context) async {
+      // final uid = await authMethods.getCurrentUID();
+      final doc =
+          FirebaseFirestore.instance.collection('Catalogue').doc(documents.id);
+
+      return await doc.delete();
+    }
+
+    return FocusedMenuHolder(
+      onPressed: () {},
+      menuWidth: size.width * 0.45,
+      menuItems: <FocusedMenuItem>[
+        FocusedMenuItem(
+          title: Text(
+            'Delete',
+            style: TextStyle(
+                color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),
           ),
-          Text(
-            documents['folderName'],
-          )
-        ],
+          onPressed: () {
+            dialogs.deleteFolder(
+              context,
+              () {
+                deleteFolder(context);
+                Navigator.pop(context);
+              },
+              'Do You want to Delete This Folder',
+            );
+          },
+
+          trailingIcon: Icon(
+            Icons.delete,
+            color: Colors.red,
+          ),
+          // backgroundColor: Colors.redAccent,
+        ),
+      ],
+      child: InkWell(
+        onTap: () {
+          print(documents.id);
+
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return ImageScreen(
+              appBarTitle: documents['folderName'],
+            );
+          }));
+        },
+        child: Column(
+          children: [
+            Icon(
+              FontAwesomeIcons.solidFolder,
+              size: size.height * 0.1,
+              color: Colors.blue[300],
+            ),
+            Text(
+              documents['folderName'],
+            )
+          ],
+        ),
       ),
     );
   }

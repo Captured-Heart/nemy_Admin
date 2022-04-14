@@ -92,10 +92,14 @@ class _SlidingImageState extends State<SlidingImage> {
             padding: EdgeInsets.zero,
             onPressed: () {
               setState(() {
-                dialog.deleteFolder(context, () {
-                  delete(context);
-                  Navigator.pop(context);
-                });
+                dialog.deleteFolder(
+                  context,
+                  () {
+                    delete(context);
+                    Navigator.pop(context);
+                  },
+                  'Do You want to Delete This Picture',
+                );
                 // documents.id.
                 // _image!.removeAt(index - 1);
               });

@@ -101,15 +101,15 @@ class _EventsFolderState extends State<EventsFolder> {
           await ref.getDownloadURL().then((value) {
             imgRef.add({
               'url': value,
-              'dateCreated': DateTime.now().toString(),
-              'Description': widget.descController,
-              'type': widget.typeController,
-              'folderName': widget.appBarTitle
+              'folderName': widget.appBarTitle,
             });
             addFolderTitle.set({
               'folderName': widget.appBarTitle,
+              'dateCreated': DateTime.now().toString(),
               'coverUrl': downloadUrl,
-              'imgLength': _image!.length
+              'imgLength': _image!.length,
+              'Description': widget.descController,
+              'type': widget.typeController,
             }).whenComplete(() => dialog.pushToDialog(
                   context: context,
                   titleText: 'Success',
